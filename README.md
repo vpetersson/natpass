@@ -60,6 +60,6 @@ Number 17 is r
 # Installation
 
 ```
-pip install -r requirements.txt
-./natpass.py
+$ pip install -r requirements.txt
+$ ./natpass.py --help
 ```
