@@ -20,7 +20,7 @@ Well, if you're a modern human being, you're most likely using a password manage
 To solve this, I whipped up a Python tool that to simplify this. Enter NatPass.
 
 ```
-$ ./natpass.py --pass 1 2 3 --pin 2 16 17
+$ ./natpass.py --pin 1 2 3 --password 2 16 17
 
  _   _       _  ______
 | \ | |     | | | ___ \
@@ -41,9 +41,9 @@ ______ _____ _   _
 \_|    \___/\_| \_/
 
 
-Number 3 is f
+Number 1 is f
 Number 2 is o
-Number 1 is o
+Number 3 is o
 
 ______                                   _
 | ___ \                                 | |
