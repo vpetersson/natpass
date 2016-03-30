@@ -5,8 +5,8 @@ NatPass is a password assistance tool that helps dealing with NatWest's annoying
 
 * Mac OS X
 * 1Password
-  * An entry in 1Password named 'NatWest' that holds your account password
-  * An entry in 1Password named 'NatWest PIN' that holds your PIN
+  * An entry in 1Password that holds your NatWest password (default 'Natwest')
+  * An entry in 1Password that holds your NatWest online PIN (default 'Natwest PIN')
 * A NatWest account (d'oh!)
 
 # Usage
@@ -62,4 +62,21 @@ Number 17 is r
 ```
 $ pip install -r requirements.txt
 $ ./natpass.py --help
+```
+
+To override the default entries ('Natwest' and 'Natwest PIN'), you can export the environment variables 'PASSWORD_ITEM' and 'PIN_ITEM'.
+
+You might also want to create a shorthand script as follows to more easily work with Natpass. Here's one example:
+
+```
+#!/bin/bash
+
+NATPASS="/path/to/natpass"
+export PIN_ITEM="Your PIN Item"
+export PASSWORD_ITEM="Your Password Item"
+
+cd "$NATPASS"
+source "venv/bin/activate"
+
+python natpass.py "$@"
 ```

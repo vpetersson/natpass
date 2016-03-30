@@ -3,6 +3,7 @@
 import os
 import sys
 import argparse
+import settings
 from getpass import getpass
 from onepassword import Keychain
 
@@ -36,27 +37,7 @@ def print_generator(password, index):
     print 'Number {} is {}'.format(index, password[real_index])
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description='NatWest password management tool.'
-    )
-    parser.add_argument('--pin',
-                        nargs=3,
-                        type=arg_validator,
-                        required=True,
-                        help='A space separated list of entries, such as 1 3 2.'
-                        )
-    parser.add_argument('--password',
-                        nargs=3,
-                        type=arg_validator,
-                        required=True,
-                        help='A space separate list of entries, such as 2 4 19.'
-                        )
-    args = parser.parse_args()
-    if not args.pin and args.password:
-        parser.print_help()
-        sys.exit(1)
-
+def print_greeting():
     print """
  _   _       _  ______
 | \ | |     | | | ___ \\
@@ -68,6 +49,53 @@ def main():
 A NatWest password assistance tool by @vpetersson.
 """
 
+
+def print_pin_splash():
+    print """
+______ _____ _   _
+| ___ \_   _| \ | |
+| |_/ / | | |  \| |
+|  __/  | | | . ` |
+| |    _| |_| |\  |
+\_|    \___/\_| \_/
+
+ """
+
+
+def print_password_splash():
+    print """
+______                                   _
+| ___ \                                 | |
+| |_/ /_ _ ___ _____      _____  _ __ __| |
+|  __/ _` / __/ __\ \ /\ / / _ \| '__/ _` |
+| | | (_| \__ \__ \\\ V  V / (_) | | | (_| |
+\_|  \__,_|___/___/ \_/\_/ \___/|_|  \__,_|
+"""
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='NatWest password management tool.'
+    )
+    parser.add_argument(
+        '--pin',
+        nargs=3,
+        type=arg_validator,
+        help='A space separated list of entries, such as 1 3 2.'
+    )
+    parser.add_argument(
+        '--password',
+        nargs=3,
+        type=arg_validator,
+        help='A space separate list of entries, such as 2 4 19.'
+    )
+    args = parser.parse_args()
+    if not (args.pin or args.password):
+        parser.print_help()
+        sys.exit(1)
+
+    print_greeting()
+
     keychain_path = find_keychain()
     if not keychain_path:
         print 'Unable to find keychain. Exiting'
@@ -78,34 +106,33 @@ A NatWest password assistance tool by @vpetersson.
 
     try:
         keychain.unlock(master_password)
-        nw_password = keychain.item('Natwest').password
-        nw_pin = keychain.item('Natwest PIN').password
     except ValueError:
-        print 'Unable to unlock keychain or find entries.'
+        print 'Unable to unlock keychain.'
         sys.exit(1)
 
-    print """
-______ _____ _   _
-| ___ \_   _| \ | |
-| |_/ / | | |  \| |
-|  __/  | | | . ` |
-| |    _| |_| |\  |
-\_|    \___/\_| \_/
+    if args.pin:
+        try:
+            nw_pin = keychain.item(settings.PIN_ITEM).password
+        except ValueError:
+            print 'Unable to find item {} in the keychain.'.format(settings.PIN_ITEM)
+            sys.exit(1)
 
-    """
-    for i in args.pin:
-        print_generator(nw_pin, i)
+        print_pin_splash()
 
-    print """
-______                                   _
-| ___ \                                 | |
-| |_/ /_ _ ___ _____      _____  _ __ __| |
-|  __/ _` / __/ __\ \ /\ / / _ \| '__/ _` |
-| | | (_| \__ \__ \\\ V  V / (_) | | | (_| |
-\_|  \__,_|___/___/ \_/\_/ \___/|_|  \__,_|
-"""
-    for i in args.password:
-        print_generator(nw_password, i)
+        for i in args.pin:
+            print_generator(nw_pin, i)
+
+    if args.password:
+        try:
+            nw_password = keychain.item(settings.PASSWORD_ITEM).password
+        except ValueError:
+            print 'Unable to find item {} in the keychain.'.format(settings.PASSWORD_ITEM)
+            sys.exit(1)
+
+        print_password_splash()
+
+        for i in args.password:
+            print_generator(nw_password, i)
 
 
 if __name__ == "__main__":
