@@ -73,7 +73,7 @@ You might also want to create a shorthand script as follows to more easily work 
 
 NATPASS="/path/to/natpass"
 export PIN_ITEM="Your PIN Item"
-export PASSWORD_ITEM="Your Password Item"
+export PWD_ITEM="Your Password Item"
 
 cd "$NATPASS"
 source "venv/bin/activate"
