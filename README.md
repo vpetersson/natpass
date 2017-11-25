@@ -87,9 +87,9 @@ python natpass.py "$@"
 If you're having issues installing m2crypto on macOS, try the following ([credits](https://stackoverflow.com/questions/33005354/trouble-installing-m2crypto-with-pip-on-os-x-macos)):
 
 ```
-brew install openssl
-brew install swig
-env LDFLAGS="-L$(brew --prefix openssl)/lib" \                                                                                                ⏎ ✹
+$ brew install openssl
+$ brew install swig
+$ env LDFLAGS="-L$(brew --prefix openssl)/lib" \                                                                                                ⏎ ✹
 CFLAGS="-I$(brew --prefix openssl)/include" \
 SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include" \
 pip install m2crypto==0.26.0
