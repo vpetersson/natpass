@@ -4,6 +4,7 @@ NatPass is a password assistance tool that helps dealing with NatWest's annoying
 # Requirement
 
 * Mac OS X
+* Python 2.7 (The 1pass library doesn't support Python 3)
 * 1Password
   * An entry in 1Password that holds your NatWest password (default 'Natwest')
   * An entry in 1Password that holds your NatWest online PIN (default 'Natwest PIN')
@@ -79,4 +80,17 @@ cd "$NATPASS"
 source "venv/bin/activate"
 
 python natpass.py "$@"
+```
+
+# Troubleshooting
+
+If you're having issues installing m2crypto on macOS, try the following ([credits](https://stackoverflow.com/questions/33005354/trouble-installing-m2crypto-with-pip-on-os-x-macos)):
+
+```
+brew install openssl
+brew install swig
+env LDFLAGS="-L$(brew --prefix openssl)/lib" \                                                                                                ⏎ ✹
+CFLAGS="-I$(brew --prefix openssl)/include" \
+SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include" \
+pip install m2crypto==0.26.0
 ```

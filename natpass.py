@@ -34,11 +34,11 @@ def arg_validator(string):
 
 def print_generator(password, index):
     real_index = index - 1
-    print 'Number {} is {}'.format(index, password[real_index])
+    print('Number {} is {}'.format(index, password[real_index]))
 
 
 def print_greeting():
-    print """
+    print("""
  _   _       _  ______
 | \ | |     | | | ___ \\
 |  \| | __ _| |_| |_/ /_ _ ___ ___
@@ -47,11 +47,11 @@ def print_greeting():
 \_| \_/\__,_|\__\_|  \__,_|___/___/
 
 A NatWest password assistance tool by @vpetersson.
-"""
+""")
 
 
 def print_pin_splash():
-    print """
+    print("""
 ______ _____ _   _
 | ___ \_   _| \ | |
 | |_/ / | | |  \| |
@@ -59,18 +59,18 @@ ______ _____ _   _
 | |    _| |_| |\  |
 \_|    \___/\_| \_/
 
- """
+ """)
 
 
 def print_password_splash():
-    print """
+    print("""
 ______                                   _
 | ___ \                                 | |
 | |_/ /_ _ ___ _____      _____  _ __ __| |
 |  __/ _` / __/ __\ \ /\ / / _ \| '__/ _` |
 | | | (_| \__ \__ \\\ V  V / (_) | | | (_| |
 \_|  \__,_|___/___/ \_/\_/ \___/|_|  \__,_|
-"""
+""")
 
 
 def main():
@@ -98,7 +98,7 @@ def main():
 
     keychain_path = find_keychain()
     if not keychain_path:
-        print 'Unable to find keychain. Exiting'
+        print('Unable to find keychain. Exiting')
         sys.exit(1)
 
     keychain = Keychain(keychain_path)
@@ -107,14 +107,14 @@ def main():
     try:
         keychain.unlock(master_password)
     except ValueError:
-        print 'Unable to unlock keychain.'
+        print('Unable to unlock keychain.')
         sys.exit(1)
 
     if args.pin:
         try:
             nw_pin = keychain.item(settings.PIN_ITEM).password
         except ValueError:
-            print 'Unable to find item {} in the keychain.'.format(settings.PIN_ITEM)
+            print('Unable to find item {} in the keychain.'.format(settings.PIN_ITEM))
             sys.exit(1)
 
         print_pin_splash()
@@ -126,7 +126,7 @@ def main():
         try:
             nw_password = keychain.item(settings.PASSWORD_ITEM).password
         except ValueError:
-            print 'Unable to find item {} in the keychain.'.format(settings.PASSWORD_ITEM)
+            print('Unable to find item {} in the keychain.'.format(settings.PASSWORD_ITEM))
             sys.exit(1)
 
         print_password_splash()
