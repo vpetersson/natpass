@@ -8,8 +8,9 @@ NatPass is a password assistance tool that helps dealing with NatWest's annoying
   * An entry in 1Password that holds your NatWest password (default 'Natwest')
   * An entry in 1Password that holds your NatWest online PIN (default 'Natwest PIN')
 * A NatWest account (d'oh!)
-* 1Password's CLI (`brew cask install 1password-cli`)
-* jq
+* [Homebrew](https://brew.sh)
+  * 1Password's CLI (`brew cask install 1password-cli`)
+  * jq (`brew install jq`)
 
 # Usage
 
