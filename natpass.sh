@@ -13,7 +13,7 @@ fi
 
 # Collect user input
 IFS=' '
-echo -n "Enter the requested requested PIN numbers (e.g. 1 2 3) and press [ENTER]: " 
+echo -n "Enter the requested requested PIN numbers (e.g. 1 2 3) and press [ENTER]: "
 read -ra PIN_OBJECTS
 
 if [ -z "$PIN_OBJECTS" ]; then
@@ -21,7 +21,7 @@ if [ -z "$PIN_OBJECTS" ]; then
     exit 1
 fi
 
-echo -n "Enter the requested requested password characters (e.g. 1 2 3) and press [ENTER]: " 
+echo -n "Enter the requested requested password characters (e.g. 1 2 3) and press [ENTER]: "
 read -ra PASSWORD_OBJECTS
 
 if [ -z "$PASSWORD_OBJECTS" ]; then
@@ -30,22 +30,22 @@ if [ -z "$PASSWORD_OBJECTS" ]; then
 fi
 
 # Get the 1password environment
-eval $(op signin "$OP_ORG")
+eval $(op signin --account "$OP_ORG")
 
 # Get the password and PIN
-PASSWORD=$(op get item "$NATWEST_LOGIN_ITEM" | jq -r '.details.fields[] | select(.designation=="password").value')
-PIN=$(op get item "$NATWEST_PIN_ITEM" | jq -r '.details.fields[] | select(.designation=="password").value')
+PASSWORD=$(op item get Natwest --format json --fields label=password | jq -r '.value')
+PIN=$(op item get "Natwest PIN" --format json --fields=password | jq -r '.value')
 
 # Print back the data
 for p in "${PIN_OBJECTS[@]}"; do
     # We need to offset the item below by one
     offset=$(($p-1))
-    echo ${PIN:$offset:1} 
+    echo ${PIN:$offset:1}
 done
 
 echo "The requested password items are as follows:"
 for p in "${PASSWORD_OBJECTS[@]}"; do
     # We need to offset the item below by one
     offset=$(($p-1))
-    echo ${PASSWORD:$offset:1} 
+    echo ${PASSWORD:$offset:1}
 done
